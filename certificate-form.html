@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Certificate Submission Portal</title>
+<style>
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  :root {
+    --primary: #1e3a8a;
+    --primary-light: #2563eb;
+    --accent: #0ea5e9;
+    --danger: #e11d48;
+    --bg: #eef2f9;
+    --card-bg: #ffffff;
+    --border: #dde3ee;
+    --text: #1a1f2b;
+    --text-muted: #6b7280;
+  }
+
+  body {
+    font-family: "Segoe UI", Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #eef2f9 0%, #e3ebf7 100%);
+    margin: 0;
+    padding: 24px 12px;
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 680px;
+    width: 100%;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 0;
+    box-shadow: 0 10px 30px rgba(30, 58, 138, 0.12);
+    overflow: hidden;
+  }
+
+  .header {
+    background: linear-gradient(120deg, var(--primary) 0%, var(--primary-light) 60%, var(--accent) 100%);
+    padding: clamp(20px, 5vw, 36px) clamp(18px, 5vw, 32px) clamp(18px, 4vw, 28px);
+    color: #fff;
+  }
+
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-size: clamp(1.25rem, 4.5vw, 1.6rem);
+    margin: 0 0 6px 0;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .header p {
+    margin: 0;
+    font-size: clamp(0.82rem, 2.5vw, 0.92rem);
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+
+  .form-body {
+    padding: clamp(18px, 5vw, 32px);
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 26px 0;
+    min-width: 0;
+  }
+
+  legend {
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--primary);
+    padding: 0 0 12px 0;
+    width: 100%;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  legend .step-num {
+    background: var(--primary-light);
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    margin-top: 16px;
+    font-size: 0.86rem;
+    color: #333;
+  }
+  label:first-of-type { margin-top: 0; }
+
+  .req-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--danger);
+    flex-shrink: 0;
+    display: inline-block;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="file"],
+  select {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 16px; /* prevents iOS auto-zoom on focus */
+    background: #fbfcfe;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    padding-right: 36px;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    background-color: #fff;
+  }
+
+  input[type="file"] {
+    padding: 9px 12px;
+    cursor: pointer;
+    font-size: 0.88rem;
+  }
+
+  .cert-block {
+    border: 1.5px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 10px;
+    padding: 16px clamp(14px, 4vw, 20px);
+    margin-bottom: 16px;
+    background: #f9fbfe;
+    position: relative;
+  }
+
+  .cert-block h3 {
+    margin: 0 0 4px 0;
+    font-size: 0.94rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cert-block h3::before {
+    content: "📄";
+    font-size: 1rem;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(120deg, var(--primary-light), var(--accent));
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 12px;
+    letter-spacing: 0.3px;
+    transition: transform 0.1s, box-shadow 0.15s;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button[type="submit"]:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.38);
+  }
+
+  button[type="submit"]:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  button[type="submit"]:disabled {
+    background: #a8bce3;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  #statusMsg {
+    margin-top: 16px;
+    padding: 13px 16px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    display: none;
+    font-weight: 500;
+  }
+  #statusMsg.success { background: #e6f6ec; color: #1a7f37; display: block; border: 1px solid #b8e6c6; }
+  #statusMsg.error { background: #fdecec; color: #c0392b; display: block; border: 1px solid #f5c2c2; }
+  #statusMsg.loading { background: #eef2ff; color: #3b4fb0; display: block; border: 1px solid #c7d2fe; }
+
+  small.hint { color: var(--text-muted); display: block; margin-top: 5px; font-size: 0.76rem; }
+
+  .required-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+
+  /* Tablet and below */
+  @media (max-width: 600px) {
+    body { padding: 0; }
+    .container { border-radius: 0; box-shadow: none; min-height: 100vh; }
+  }
+
+  /* Small phones */
+  @media (max-width: 360px) {
+    .header .badge { font-size: 0.65rem; padding: 3px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <span class="badge">DEPARTMENT OF ENGINEERING</span>
+    <h1>🎓 Certificate Submission Portal</h1>
+    <p>Submit your course completions, workshops, and certifications for academic record and recognition.</p>
+  </div>
+
+  <div class="form-body">
+    <form id="certForm">
+
+      <p class="required-note"><span class="req-dot"></span> indicates a required field</p>
+
+      <fieldset>
+        <legend><span class="step-num">1</span> Student Information</legend>
+
+        <label for="studentName"><span class="req-dot"></span>Full Name</label>
+        <input type="text" id="studentName" name="studentName" placeholder="e.g. Rohan Sharma" required>
+
+        <label for="rollNo"><span class="req-dot"></span>Roll Number</label>
+        <input type="text" id="rollNo" name="rollNo" placeholder="e.g. ENG2024015" required>
+
+        <label for="academicYear"><span class="req-dot"></span>Academic Year</label>
+        <select id="academicYear" name="academicYear" required>
+          <option value="">-- Select Academic Year --</option>
+          <option value="SY">SY (Second Year)</option>
+          <option value="TY">TY (Third Year)</option>
+          <option value="BY">BY (Bachelor Year)</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="step-num">2</span> Certificate Count</legend>
+        <label for="certCount"><span class="req-dot"></span>How many certificates are you submitting?</label>
+        <select id="certCount" name="certCount" required>
+          <option value="">-- Select --</option>
+          <!-- Options 1-10 generated by JS -->
+        </select>
+      </fieldset>
+
+      <div id="certBlocksContainer"></div>
+
+      <button type="submit" id="submitBtn">Submit Certificates</button>
+
+      <div id="statusMsg"></div>
+
+      <p class="footer-note">Accepted formats: PDF, JPG, PNG &nbsp;•&nbsp; Max 10 certificates per submission</p>
+    </form>
+  </div>
+
+</div>
+
+<script>
+  // ---------- CONFIGURE THESE TWO URLS ----------
+  const PLATFORM_OPTIONS_WEBHOOK_URL = "YOUR_OPTIONS_LOOKUP_WEBHOOK_URL_HERE"; // returns JSON array of platform/org names
+  const FORM_SUBMIT_WEBHOOK_URL = "YOUR_SUBMIT_WEBHOOK_URL_HERE"; // your main n8n workflow's webhook
+  // -----------------------------------------------
+
+  const certCountSelect = document.getElementById('certCount');
+  const certBlocksContainer = document.getElementById('certBlocksContainer');
+  const certForm = document.getElementById('certForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const statusMsg = document.getElementById('statusMsg');
+
+  let platformOptions = [];
+
+  for (let i = 1; i <= 10; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = i;
+    certCountSelect.appendChild(opt);
+  }
+
+  async function loadPlatformOptions() {
+    try {
+      const res = await fetch(PLATFORM_OPTIONS_WEBHOOK_URL);
+      platformOptions = await res.json();
+    } catch (err) {
+      console.error('Failed to load platform options:', err);
+      platformOptions = [];
+    }
+  }
+  loadPlatformOptions();
+
+  function buildPlatformSelectHTML(index) {
+    let optionsHTML = '<option value="">-- Select --</option>';
+    platformOptions.forEach(function (opt) {
+      optionsHTML += `<option value="${opt}">${opt}</option>`;
+    });
+    return `
+      <label for="platform_${index}"><span class="req-dot"></span>Certification Platform / Issuing Organization</label>
+      <select id="platform_${index}" name="platform_${index}" required>
+        ${optionsHTML}
+      </select>
+    `;
+  }
+
+  function buildCertBlock(index) {
+    const block = document.createElement('div');
+    block.className = 'cert-block';
+    block.innerHTML = `
+      <h3>Certificate ${index}</h3>
+
+      ${buildPlatformSelectHTML(index)}
+
+      <label for="certName_${index}"><span class="req-dot"></span>Certificate Name / Title</label>
+      <input type="text" id="certName_${index}" name="certName_${index}" placeholder="e.g. Introduction to Machine Learning" required>
+
+      <label for="completionDate_${index}"><span class="req-dot"></span>Completion Date</label>
+      <input type="date" id="completionDate_${index}" name="completionDate_${index}" required>
+
+      <label for="certFile_${index}"><span class="req-dot"></span>Upload Certificate</label>
+      <input type="file" id="certFile_${index}" name="certFile_${index}" accept=".pdf,.jpg,.jpeg,.png" required>
+      <small class="hint">Accepted formats: PDF, JPG, PNG</small>
+    `;
+    return block;
+  }
+
+  certCountSelect.addEventListener('change', function () {
+    certBlocksContainer.innerHTML = '';
+    const count = parseInt(certCountSelect.value, 10);
+    if (!count) return;
+
+    for (let i = 1; i <= count; i++) {
+      certBlocksContainer.appendChild(buildCertBlock(i));
+    }
+  });
+
+  certForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const count = parseInt(certCountSelect.value, 10);
+    if (!count) {
+      showStatus('error', 'Please select how many certificates you are submitting.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    showStatus('loading', 'Submitting your certificates, please wait...');
+
+    const formData = new FormData();
+    formData.append('studentName', document.getElementById('studentName').value);
+    formData.append('rollNo', document.getElementById('rollNo').value);
+    formData.append('academicYear', document.getElementById('academicYear').value);
+    formData.append('certCount', count);
+
+    for (let i = 1; i <= count; i++) {
+      formData.append(`platform_${i}`, document.getElementById(`platform_${i}`).value);
+      formData.append(`certName_${i}`, document.getElementById(`certName_${i}`).value);
+      formData.append(`completionDate_${i}`, document.getElementById(`completionDate_${i}`).value);
+
+      const fileInput = document.getElementById(`certFile_${i}`);
+      if (fileInput.files.length > 0) {
+        formData.append(`certFile_${i}`, fileInput.files[0]);
+      }
+    }
+
+    try {
+      const response = await fetch(FORM_SUBMIT_WEBHOOK_URL, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) throw new Error('Server responded with an error');
+
+      showStatus('success', '✅ Your certificates were submitted successfully!');
+      certForm.reset();
+      certBlocksContainer.innerHTML = '';
+    } catch (err) {
+      console.error(err);
+      showStatus('error', 'Something went wrong while submitting. Please try again.');
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  function showStatus(type, message) {
+    statusMsg.className = type;
+    statusMsg.textContent = message;
+  }
+</script>
+
+</body>
+</html>
