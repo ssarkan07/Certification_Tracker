@@ -4,372 +4,925 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Certificate Submission Portal</title>
+  <title>Certificate Submission Portal &mdash; AI &amp; Data Science | SNJB KBJ COE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Google+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <style>
-    * {
+    /* ---------- Reset ---------- */
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     html {
       -webkit-text-size-adjust: 100%;
     }
 
+    /* ---------- Design Tokens ---------- */
     :root {
-      --primary: #1e3a8a;
-      --primary-light: #2563eb;
-      --accent: #0ea5e9;
-      --danger: #e11d48;
-      --bg: #eef2f9;
-      --card-bg: #ffffff;
-      --border: #dde3ee;
-      --text: #1a1f2b;
-      --text-muted: #6b7280;
+      --purple: #673AB7;
+      --purple-dark: #512DA8;
+      --purple-light: #EDE7F6;
+      --purple-focus: rgba(103, 58, 183, 0.2);
+      --red: #D93025;
+      --green: #1E8E3E;
+      --green-light: #E6F4EA;
+      --page-bg: #F0EBF8;
+      --card: #FFFFFF;
+      --border: #DADCE0;
+      --border-focus: #673AB7;
+      --text-primary: #202124;
+      --text-secondary: #444746;
+      --text-muted: #70757A;
+      --input-bg: #FFFFFF;
+      --shadow-card: 0 2px 6px 2px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 4px 12px 4px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.08);
+      --radius-card: 8px;
+      --radius-input: 4px;
     }
 
+    /* ---------- Base ---------- */
     body {
-      font-family: "Segoe UI", Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #eef2f9 0%, #e3ebf7 100%);
-      margin: 0;
-      padding: 24px 12px;
-      color: var(--text);
+      font-family: 'Roboto', 'Google Sans', Arial, sans-serif;
+      background-color: var(--page-bg);
+      color: var(--text-primary);
       min-height: 100vh;
+      padding: 24px 16px 48px;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    .container {
-      max-width: 680px;
-      width: 100%;
+    /* ---------- Page wrapper ---------- */
+    .page-wrapper {
+      max-width: 640px;
       margin: 0 auto;
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 0;
-      box-shadow: 0 10px 30px rgba(30, 58, 138, 0.12);
-      overflow: hidden;
-    }
-
-    .header {
-      background: linear-gradient(120deg, var(--primary) 0%, var(--primary-light) 60%, var(--accent) 100%);
-      padding: clamp(20px, 5vw, 36px) clamp(18px, 5vw, 32px) clamp(18px, 4vw, 28px);
-      color: #fff;
-    }
-
-    .header .badge {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.15);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      margin-bottom: 12px;
-    }
-
-    .header h1 {
-      font-size: clamp(1.25rem, 4.5vw, 1.6rem);
-      margin: 0 0 6px 0;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-
-    .header p {
-      margin: 0;
-      font-size: clamp(0.82rem, 2.5vw, 0.92rem);
-      opacity: 0.9;
-      line-height: 1.5;
-    }
-
-    .form-body {
-      padding: clamp(18px, 5vw, 32px);
-    }
-
-    fieldset {
-      border: none;
-      padding: 0;
-      margin: 0 0 26px 0;
-      min-width: 0;
-    }
-
-    legend {
-      font-weight: 700;
-      font-size: 0.98rem;
-      color: var(--primary);
-      padding: 0 0 12px 0;
-      width: 100%;
-      border-bottom: 2px solid var(--border);
-      margin-bottom: 16px;
       display: flex;
-      align-items: center;
-      gap: 8px;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    legend .step-num {
-      background: var(--primary-light);
-      color: #fff;
-      width: 22px;
-      height: 22px;
-      min-width: 22px;
+    /* ---------- Form layout ---------- */
+    #certForm {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ---------- Card base ---------- */
+    .gf-card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    /* ---------- Header card ---------- */
+    .header-card {
+      border-top: 10px solid var(--purple);
+      padding: 24px 24px 20px;
+    }
+
+    .header-college-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .header-college-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      background: var(--purple-light);
       border-radius: 50%;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
-    }
-
-    label {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      margin-top: 16px;
-      font-size: 0.86rem;
-      color: #333;
-    }
-
-    label:first-of-type {
-      margin-top: 0;
-    }
-
-    .req-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--danger);
+      font-size: 1.1rem;
       flex-shrink: 0;
-      display: inline-block;
     }
 
-    input[type="text"],
-    input[type="date"],
-    input[type="file"],
-    select {
-      width: 100%;
-      max-width: 100%;
-      padding: 12px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      font-size: 16px;
-      /* prevents iOS auto-zoom on focus */
-      background: #fbfcfe;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      font-family: inherit;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    select {
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 18px;
-      padding-right: 36px;
-    }
-
-    input:focus,
-    select:focus {
-      outline: none;
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-      background-color: #fff;
-    }
-
-    input[type="file"] {
-      padding: 9px 12px;
-      cursor: pointer;
-      font-size: 0.88rem;
-    }
-
-    .cert-block {
-      border: 1.5px solid var(--border);
-      border-left: 4px solid var(--accent);
-      border-radius: 10px;
-      padding: 16px clamp(14px, 4vw, 20px);
-      margin-bottom: 16px;
-      background: #f9fbfe;
-      position: relative;
-    }
-
-    .cert-block h3 {
-      margin: 0 0 4px 0;
-      font-size: 0.94rem;
-      color: var(--primary);
+    .header-college-meta {
       display: flex;
-      align-items: center;
-      gap: 8px;
+      flex-direction: column;
+      gap: 3px;
     }
 
-    .cert-block h3::before {
-      content: "📄";
-      font-size: 1rem;
-    }
-
-    button[type="submit"] {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(120deg, var(--primary-light), var(--accent));
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 12px;
-      letter-spacing: 0.3px;
-      transition: transform 0.1s, box-shadow 0.15s;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    button[type="submit"]:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.38);
-    }
-
-    button[type="submit"]:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    button[type="submit"]:disabled {
-      background: #a8bce3;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    #statusMsg {
-      margin-top: 16px;
-      padding: 13px 16px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      display: none;
+    .college-name-text {
+      font-size: 0.82rem;
       font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 1.4;
     }
 
-    #statusMsg.success {
-      background: #e6f6ec;
-      color: #1a7f37;
-      display: block;
-      border: 1px solid #b8e6c6;
+    .dept-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--purple-light);
+      color: var(--purple-dark);
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      width: fit-content;
     }
 
-    #statusMsg.error {
-      background: #fdecec;
-      color: #c0392b;
-      display: block;
-      border: 1px solid #f5c2c2;
+    .header-divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 16px;
     }
 
-    #statusMsg.loading {
-      background: #eef2ff;
-      color: #3b4fb0;
-      display: block;
-      border: 1px solid #c7d2fe;
+    .form-title {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.3;
+      margin-bottom: 8px;
     }
 
-    small.hint {
-      color: var(--text-muted);
-      display: block;
-      margin-top: 5px;
-      font-size: 0.76rem;
+    .form-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
     }
 
     .required-note {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
+      gap: 4px;
+      font-size: 0.82rem;
       color: var(--text-muted);
+      margin-top: 14px;
+    }
+
+    .required-note .req-star {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    /* ---------- Section cards ---------- */
+    .section-card {
+      padding: 24px;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ---------- Field group ---------- */
+    .field-group {
       margin-bottom: 20px;
     }
 
-    .footer-note {
-      text-align: center;
+    .field-group:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ---------- Labels ---------- */
+    .gf-label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .gf-label .req-star {
+      color: var(--red);
+      margin-left: 2px;
+    }
+
+    /* ---------- Inputs & Selects ---------- */
+    .gf-input,
+    .gf-select {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-input);
+      background: var(--input-bg);
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.94rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .gf-input::placeholder {
+      color: #9AA0A6;
+    }
+
+    .gf-input:hover,
+    .gf-select:hover {
+      border-color: #AEAEAE;
+    }
+
+    .gf-input:focus,
+    .gf-select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px var(--purple-focus);
+    }
+
+    /* Invalid state */
+    .gf-input.field-invalid,
+    .gf-select.field-invalid {
+      border-color: var(--red) !important;
+      box-shadow: 0 0 0 2px rgba(217, 48, 37, 0.15) !important;
+    }
+
+    /* Select arrow */
+    .gf-select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2370757A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 18px;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    /* ---------- File upload ---------- */
+    .file-upload-area {
+      position: relative;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-input);
+      background: #FAFAFA;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .file-upload-area:hover {
+      border-color: var(--purple);
+      background: var(--purple-light);
+    }
+
+    .file-upload-area.field-invalid {
+      border-color: var(--red) !important;
+      border-style: dashed !important;
+    }
+
+    .file-upload-area .file-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      color: var(--purple);
+    }
+
+    .file-upload-area .file-upload-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-upload-label-text {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--purple);
+    }
+
+    .file-upload-hint {
       font-size: 0.76rem;
       color: var(--text-muted);
-      margin-top: 20px;
+      margin-top: 2px;
+    }
+
+    .file-chosen-name {
+      font-size: 0.82rem;
+      color: var(--green);
+      font-weight: 500;
+      margin-top: 4px;
+      word-break: break-all;
+    }
+
+    /* Hidden actual file input */
+    .file-upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* ---------- Cert block card ---------- */
+    .cert-card {
+      background: #FAFBFF;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--purple);
+      border-radius: var(--radius-card);
+      padding: 20px;
+    }
+
+    .cert-card-title {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--purple-dark);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cert-card-title svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ---------- Submit row ---------- */
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 20px 24px;
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+    }
+
+    .gf-submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0 24px;
+      height: 44px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.94rem;
+      font-weight: 500;
+      letter-spacing: 0.25px;
+      cursor: pointer;
+      transition: background 0.15s, box-shadow 0.15s;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .gf-submit-btn:hover:not(:disabled) {
+      background: var(--purple-dark);
+      box-shadow: 0 2px 8px rgba(103, 58, 183, 0.35);
+    }
+
+    .gf-submit-btn:active:not(:disabled) {
+      background: #4527A0;
+    }
+
+    .gf-submit-btn:disabled {
+      background: #B39DDB;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .submit-footer-note {
+      font-size: 0.76rem;
+      color: var(--text-muted);
       line-height: 1.5;
     }
 
-    /* Tablet and below */
-    @media (max-width: 600px) {
-      body {
-        padding: 0;
+    /* ---------- Inline status (info/error) ---------- */
+    #statusMsg {
+      font-size: 0.85rem;
+      font-weight: 400;
+      padding: 12px 16px;
+      border-radius: var(--radius-input);
+      display: none;
+      margin-top: 4px;
+    }
+
+    #statusMsg.error {
+      display: block;
+      background: #FCE8E6;
+      color: #D93025;
+      border: 1px solid #F5C6C2;
+    }
+
+    #statusMsg.info {
+      display: block;
+      background: var(--purple-light);
+      color: var(--purple-dark);
+      border: 1px solid #D1C4E9;
+    }
+
+    /* ---------- Loading Overlay ---------- */
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(32, 33, 36, 0.55);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    #loadingOverlay.visible {
+      display: flex;
+    }
+
+    .loading-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 36px 40px;
+      text-align: center;
+      max-width: 300px;
+      width: 88%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      animation: cardIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes cardIn {
+      from {
+        transform: scale(0.88);
+        opacity: 0;
       }
 
-      .container {
-        border-radius: 0;
-        box-shadow: none;
-        min-height: 100vh;
+      to {
+        transform: scale(1);
+        opacity: 1;
       }
     }
 
-    /* Small phones */
-    @media (max-width: 360px) {
-      .header .badge {
-        font-size: 0.65rem;
-        padding: 3px 10px;
+    /* Yellow circular spinner */
+    .spinner {
+      width: 52px;
+      height: 52px;
+      border: 4px solid #FEF3C7;
+      border-top-color: #F59E0B;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
       }
+    }
+
+    .loading-title {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .loading-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ---------- Success Overlay ---------- */
+    #successOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(32, 33, 36, 0.55);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    #successOverlay.visible {
+      display: flex;
+    }
+
+    .success-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      max-width: 340px;
+      width: 88%;
+      animation: cardIn 0.26s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .success-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 36px 40px;
+      text-align: center;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    .tick-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--green-light);
+      border: 2px solid #CEEAD6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .tick-svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .tick-svg path {
+      stroke: var(--green);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      animation: draw 0.4s ease-out 0.3s forwards;
+    }
+
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .success-title {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .success-msg {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .success-btn {
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0 24px;
+      height: 40px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .success-btn:hover {
+      background: var(--purple-dark);
+    }
+
+    /* Subtle author credit outside the widget card */
+    .success-outside-credit {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.72);
+      font-weight: 400;
+      letter-spacing: 0.35px;
+      text-align: center;
+      user-select: none;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    /* ---------- Validation Modal ---------- */
+    #validationModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      background: rgba(32, 33, 36, 0.5);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    #validationModal.visible {
+      display: flex;
+    }
+
+    .validation-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 380px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+      animation: cardIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .validation-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .validation-header svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      color: var(--red);
+    }
+
+    .validation-header-text {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .validation-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .validation-list li {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      background: #FCE8E6;
+      border-radius: 4px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .validation-list li::before {
+      content: '\2022';
+      color: var(--red);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .validation-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .validation-ok-btn {
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0 20px;
+      height: 38px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .validation-ok-btn:hover {
+      background: var(--purple-dark);
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 640px) {
+      body {
+        padding: 12px 10px 36px;
+        background-color: var(--page-bg);
+      }
+
+      .page-wrapper {
+        gap: 12px;
+        max-width: 100%;
+      }
+
+      #certForm {
+        gap: 12px;
+      }
+
+      .header-card {
+        padding: 20px 16px 16px;
+      }
+
+      .section-card {
+        padding: 20px 16px;
+      }
+
+      .submit-row {
+        padding: 16px;
+      }
+
+      .gf-submit-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .success-card,
+      .loading-card {
+        border-radius: 8px;
+        padding: 28px 20px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .college-name-text {
+        font-size: 0.75rem;
+      }
+
+      .form-title {
+        font-size: 1.45rem;
+      }
+    }
+
+    /* ---------- Cert blocks container spacing ---------- */
+    #certBlocksContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+  <!-- ---------- Loading Overlay ---------- -->
+  <div id="loadingOverlay" role="status" aria-live="polite">
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <p class="loading-title" id="loadingTitle">Preparing your files...</p>
+      <p class="loading-sub" id="loadingSub">Please keep this page open.</p>
+    </div>
+  </div>
 
-    <div class="header">
-      <span class="badge">DEPARTMENT OF ENGINEERING</span>
-      <h1>🎓 Certificate Submission Portal</h1>
-      <p>Submit your course completions, workshops, and certifications for academic record and recognition.</p>
+  <!-- ---------- Success Overlay ---------- -->
+  <div id="successOverlay" role="status" aria-live="polite">
+    <div class="success-container">
+      <div class="success-card">
+        <div class="tick-circle">
+          <svg class="tick-svg" viewBox="0 0 36 36">
+            <path d="M7 19 L15 27 L29 11" />
+          </svg>
+        </div>
+        <h2 class="success-title">Submitted successfully!</h2>
+        <p class="success-msg">🎉 Your certificate has been submitted.<br>Keep learning and keep growing!</p>
+        <button class="success-btn" id="successCloseBtn">Done</button>
+      </div>
+      <p class="success-outside-credit">Created by Arkan Shaikh.</p>
+    </div>
+  </div>
+
+  <!-- ---------- Validation Modal ---------- -->
+  <div id="validationModal" role="alertdialog" aria-modal="true" aria-labelledby="valModalTitle">
+    <div class="validation-card">
+      <div class="validation-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        <span class="validation-header-text" id="valModalTitle">Please fill in all required fields</span>
+      </div>
+      <ul class="validation-list" id="validationList"></ul>
+      <div class="validation-actions">
+        <button class="validation-ok-btn" id="validationOkBtn">OK, got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- Page ---------- -->
+  <div class="page-wrapper">
+
+    <!-- Header card -->
+    <div class="gf-card header-card">
+      <div class="header-college-row">
+        <div class="header-college-icon">🎓</div>
+        <div class="header-college-meta">
+          <span class="college-name-text">SNJB KBJ College of Engineering, Chandwad</span>
+          <span class="dept-pill">⚡ AI &amp; Data Science</span>
+        </div>
+      </div>
+      <div class="header-divider"></div>
+      <h1 class="form-title">Certificate Submission Portal</h1>
+      <p class="form-subtitle">Submit your course completions, workshops, and certifications for academic record and
+        recognition.</p>
+      <p class="required-note"><span class="req-star">*</span>&nbsp;Indicates required question</p>
     </div>
 
-    <div class="form-body">
-      <form id="certForm">
+    <!-- Form -->
+    <form id="certForm" novalidate>
 
-        <p class="required-note"><span class="req-dot"></span> indicates a required field</p>
+      <!-- Section 1: Student Info -->
+      <div class="gf-card section-card">
+        <p class="section-title">Student Information</p>
 
-        <fieldset>
-          <legend><span class="step-num">1</span> Student Information</legend>
+        <div class="field-group">
+          <label class="gf-label" for="studentName">Full Name <span class="req-star">*</span></label>
+          <input class="gf-input" type="text" id="studentName" name="studentName" placeholder="e.g. Rohit Sharma"
+            required autocomplete="name">
+        </div>
 
-          <label for="studentName"><span class="req-dot"></span>Full Name</label>
-          <input type="text" id="studentName" name="studentName" placeholder="e.g. Rohan Sharma" required>
+        <div class="field-group">
+          <label class="gf-label" for="rollNo">Roll Number <span class="req-star">*</span></label>
+          <input class="gf-input" type="text" id="rollNo" name="rollNo" placeholder="e.g. 45" required>
+        </div>
 
-          <label for="rollNo"><span class="req-dot"></span>Roll Number</label>
-          <input type="text" id="rollNo" name="rollNo" placeholder="e.g. ENG2024015" required>
-
-          <label for="academicYear"><span class="req-dot"></span>Academic Year</label>
-          <select id="academicYear" name="academicYear" required>
+        <div class="field-group">
+          <label class="gf-label" for="academicYear">Academic Year <span class="req-star">*</span></label>
+          <!-- Values MUST match the n8n Switch rules and the Google Sheet tab names exactly -->
+          <select class="gf-select" id="academicYear" name="academicYear" required>
             <option value="">-- Select Academic Year --</option>
-            <option value="SY">SY (Second Year)</option>
-            <option value="TY">TY (Third Year)</option>
-            <option value="BY">BY (Bachelor Year)</option>
+            <option value="SY (Second Year)">SY (Second Year)</option>
+            <option value="TY (Third Year)">TY (Third Year)</option>
+            <option value="BY (Final Year)">BY (Final Year)</option>
           </select>
-        </fieldset>
+        </div>
+      </div>
 
-        <fieldset>
-          <legend><span class="step-num">2</span> Certificate Count</legend>
-          <label for="certCount"><span class="req-dot"></span>How many certificates are you submitting?</label>
-          <select id="certCount" name="certCount" required>
+      <!-- Section 2: Certificate Count -->
+      <div class="gf-card section-card">
+        <p class="section-title">Certificate Count</p>
+        <div class="field-group">
+          <label class="gf-label" for="certCount">How many certificates are you submitting? <span
+              class="req-star">*</span></label>
+          <select class="gf-select" id="certCount" name="certCount" required>
             <option value="">-- Select --</option>
             <!-- Options 1-10 generated by JS -->
           </select>
-        </fieldset>
+        </div>
+      </div>
 
-        <div id="certBlocksContainer"></div>
+      <!-- Dynamic cert blocks -->
+      <div id="certBlocksContainer"></div>
 
-        <button type="submit" id="submitBtn">Submit Certificates</button>
+      <!-- Status message (errors / info only) -->
+      <div id="statusMsg"></div>
 
-        <div id="statusMsg"></div>
+      <!-- Submit row -->
+      <div class="submit-row">
+        <button type="submit" class="gf-submit-btn" id="submitBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+          Submit Certificates
+        </button>
+        <span class="submit-footer-note">PDF, JPG, PNG </span>
+      </div>
 
-        <p class="footer-note">Accepted formats: PDF, JPG, PNG &nbsp;•&nbsp; Max 10 certificates per submission</p>
-      </form>
-    </div>
+    </form>
 
-  </div>
+  </div><!-- /page-wrapper -->
 
   <script>
     // ---------- CONFIGURE THESE TWO URLS ----------
-    const PLATFORM_OPTIONS_WEBHOOK_URL = "http://localhost:5678/webhook/616164fa-f480-4486-97a7-b9a41421032c"; // returns JSON array of platform/org names
-    const FORM_SUBMIT_WEBHOOK_URL = "http://localhost:5678/webhook/64b07f1a-e0c3-4714-9711-05b466dd07ae"; // your main n8n workflow's webhook
+    // Local testing:  http://localhost:5678/webhook/...
+    // Netlify / other devices: use your public HTTPS n8n URL instead,
+    // e.g. https://n8n.yourdomain.com/webhook/...
+    const N8N_BASE_URL = "https://snjbcoe.duckdns.org";
+    const PLATFORM_OPTIONS_WEBHOOK_URL = N8N_BASE_URL + "/webhook/616164fa-f480-4486-97a7-b9a41421032c"; // GET  -> { "options": [...] }
+    const FORM_SUBMIT_WEBHOOK_URL = N8N_BASE_URL + "/webhook/64b07f1a-e0c3-4714-9711-05b466dd07ae";       // POST -> main workflow
     // -----------------------------------------------
 
     const certCountSelect = document.getElementById('certCount');
@@ -378,8 +931,20 @@
     const submitBtn = document.getElementById('submitBtn');
     const statusMsg = document.getElementById('statusMsg');
 
-    let platformOptions = [];
+    // Overlay references
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loadingTitle = document.getElementById('loadingTitle');
+    const loadingSub = document.getElementById('loadingSub');
+    const successOverlay = document.getElementById('successOverlay');
+    const successCloseBtn = document.getElementById('successCloseBtn');
+    const validationModal = document.getElementById('validationModal');
+    const validationList = document.getElementById('validationList');
+    const validationOkBtn = document.getElementById('validationOkBtn');
 
+    let platformOptions = [];
+    let optionsLoadFailed = false;
+
+    // Populate cert count 1-10
     for (let i = 1; i <= 10; i++) {
       const opt = document.createElement('option');
       opt.value = i;
@@ -387,104 +952,491 @@
       certCountSelect.appendChild(opt);
     }
 
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     async function loadPlatformOptions() {
       try {
         const res = await fetch(PLATFORM_OPTIONS_WEBHOOK_URL);
-        platformOptions = await res.json();
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        // n8n returns { options: [...] }; also accept a plain array
+        platformOptions = Array.isArray(data) ? data : (data.options || []);
+        optionsLoadFailed = platformOptions.length === 0;
       } catch (err) {
         console.error('Failed to load platform options:', err);
         platformOptions = [];
+        optionsLoadFailed = true;
       }
     }
-    loadPlatformOptions();
+
+    // Promise so the dropdowns are never built before the options arrive
+    let optionsReady = loadPlatformOptions();
 
     function buildPlatformSelectHTML(index) {
-      let optionsHTML = '<option value="">-- Select --</option>';
+      let optionsHTML = '<option value="">-- Select platform --</option>';
       platformOptions.forEach(function (opt) {
-        optionsHTML += `<option value="${opt}">${opt}</option>`;
+        const safe = escapeHTML(opt);
+        optionsHTML += `<option value="${safe}">${safe}</option>`;
       });
       return `
-      <label for="platform_${index}"><span class="req-dot"></span>Certification Platform / Issuing Organization</label>
-      <select id="platform_${index}" name="platform_${index}" required>
-        ${optionsHTML}
-      </select>
-    `;
+        <div class="field-group">
+          <label class="gf-label" for="platform_${index}">Certification Platform / Issuing Organization <span class="req-star">*</span></label>
+          <select class="gf-select" id="platform_${index}" name="platform_${index}" required>
+            ${optionsHTML}
+          </select>
+        </div>`;
     }
 
     function buildCertBlock(index) {
       const block = document.createElement('div');
-      block.className = 'cert-block';
+      block.className = 'gf-card cert-card';
       block.innerHTML = `
-      <h3>Certificate ${index}</h3>
+        <p class="cert-card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+          </svg>
+          Certificate ${index}
+        </p>
 
-      ${buildPlatformSelectHTML(index)}
+        ${buildPlatformSelectHTML(index)}
 
-      <label for="certName_${index}"><span class="req-dot"></span>Certificate Name / Title</label>
-      <input type="text" id="certName_${index}" name="certName_${index}" placeholder="e.g. Introduction to Machine Learning" required>
+        <div class="field-group">
+          <label class="gf-label" for="certName_${index}">Certificate Name / Title <span class="req-star">*</span></label>
+          <input class="gf-input" type="text" id="certName_${index}" name="certName_${index}" placeholder="e.g. Introduction to Machine Learning" required>
+        </div>
 
-      <label for="completionDate_${index}"><span class="req-dot"></span>Completion Date</label>
-      <input type="date" id="completionDate_${index}" name="completionDate_${index}" required>
+        <div class="field-group">
+          <label class="gf-label" for="completionDate_${index}">Completion Date <span class="req-star">*</span></label>
+          <input class="gf-input" type="date" id="completionDate_${index}" name="completionDate_${index}" required>
+        </div>
 
-      <label for="certFile_${index}"><span class="req-dot"></span>Upload Certificate</label>
-      <input type="file" id="certFile_${index}" name="certFile_${index}" accept=".pdf,.jpg,.jpeg,.png" required>
-      <small class="hint">Accepted formats: PDF, JPG, PNG</small>
-    `;
+        <div class="field-group">
+          <label class="gf-label" for="certFile_${index}">Upload Certificate <span class="req-star">*</span></label>
+          <div class="file-upload-area" id="fileArea_${index}">
+            <span class="file-icon">📎</span>
+            <div class="file-upload-text">
+              <div class="file-upload-label-text">Click to add file</div>
+              <div class="file-upload-hint">PDF, JPG, PNG accepted</div>
+              <div class="file-chosen-name" id="fileNote_${index}"></div>
+            </div>
+            <input type="file" id="certFile_${index}" name="certFile_${index}" accept=".pdf,.jpg,.jpeg,.png" required aria-label="Upload Certificate ${index}">
+          </div>
+        </div>`;
+
+      block.querySelector('#certFile_' + index).addEventListener('change', function () { onFileChosen(index); });
       return block;
     }
 
-    certCountSelect.addEventListener('change', function () {
+    // ---------- Keep chosen files (IndexedDB) ----------
+    // Browsers cannot restore <input type="file"> after a reload, so every file is
+    // also stored on the device the moment it is chosen and re-attached on reload.
+    const FILE_DB = 'certPortalFiles';
+    const FILE_STORE = 'files';
+    let missingFiles = [];
+
+    function openFileDB() {
+      return new Promise(function (resolve, reject) {
+        const req = indexedDB.open(FILE_DB, 1);
+        req.onupgradeneeded = function () { req.result.createObjectStore(FILE_STORE); };
+        req.onsuccess = function () { resolve(req.result); };
+        req.onerror = function () { reject(req.error); };
+      });
+    }
+
+    async function fileDbRun(mode, fn) {
+      try {
+        const db = await openFileDB();
+        const result = await new Promise(function (resolve, reject) {
+          const tx = db.transaction(FILE_STORE, mode);
+          const req = fn(tx.objectStore(FILE_STORE));
+          tx.oncomplete = function () { resolve(req ? req.result : undefined); };
+          tx.onerror = function () { reject(tx.error); };
+          tx.onabort = function () { reject(tx.error); };
+        });
+        db.close();
+        return result;
+      } catch (e) {
+        console.warn('File storage unavailable:', e);
+        return undefined;
+      }
+    }
+
+    const filePut = function (key, val) { return fileDbRun('readwrite', function (st) { return st.put(val, key); }); };
+    const fileGet = function (key) { return fileDbRun('readonly', function (st) { return st.get(key); }); };
+    const fileDelete = function (key) { return fileDbRun('readwrite', function (st) { return st.delete(key); }); };
+    const fileClearAll = function () { return fileDbRun('readwrite', function (st) { return st.clear(); }); };
+
+    async function onFileChosen(i) {
+      const input = document.getElementById('certFile_' + i);
+      const note = document.getElementById('fileNote_' + i);
+      const area = document.getElementById('fileArea_' + i);
+      if (!input) return;
+      if (input.files.length > 0) {
+        const f = input.files[0];
+        if (note) note.textContent = '✓ ' + f.name;
+        if (area) area.classList.remove('field-invalid');
+        await filePut('cert_' + i, { blob: f, name: f.name, type: f.type, t: Date.now() });
+      } else {
+        if (note) note.textContent = '';
+        await fileDelete('cert_' + i);
+      }
+    }
+
+    // Re-attach saved files to the freshly built inputs. Returns the certificate
+    // numbers that still have no file.
+    async function restoreFiles(count) {
+      const missing = [];
+      for (let i = 1; i <= count; i++) {
+        const input = document.getElementById('certFile_' + i);
+        const note = document.getElementById('fileNote_' + i);
+        const rec = await fileGet('cert_' + i);
+        if (rec && rec.blob && input) {
+          try {
+            const f = new File([rec.blob], rec.name, { type: rec.type });
+            const dt = new DataTransfer();
+            dt.items.add(f);
+            input.files = dt.files;
+            if (note) note.textContent = '✓ ' + rec.name + ' (restored)';
+            continue;
+          } catch (e) {
+            console.warn('Could not re-attach file', e);
+          }
+        }
+        missing.push(i);
+      }
+      return missing;
+    }
+
+    // ---------- Draft saving ----------
+    // Some phones unload the page while the file picker is open. When the browser
+    // comes back, the dynamically created certificate fields are gone. We keep the
+    // typed details in localStorage and rebuild the form automatically.
+    const DRAFT_KEY = 'certPortalDraft_v1';
+    const DRAFT_MAX_AGE_MS = 6 * 60 * 60 * 1000;
+
+    function collectCerts() {
+      const count = parseInt(certCountSelect.value, 10) || 0;
+      const certs = [];
+      for (let i = 1; i <= count; i++) {
+        const p = document.getElementById('platform_' + i);
+        if (!p) break;
+        certs.push({
+          platform: p.value,
+          certName: document.getElementById('certName_' + i).value,
+          completionDate: document.getElementById('completionDate_' + i).value
+        });
+      }
+      return certs;
+    }
+
+    function saveDraft() {
+      try {
+        const count = parseInt(certCountSelect.value, 10) || 0;
+        const certs = collectCerts();
+        if (count > 0 && certs.length !== count) return; // blocks not built yet: keep the old draft
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({
+          t: Date.now(),
+          studentName: document.getElementById('studentName').value,
+          rollNo: document.getElementById('rollNo').value,
+          academicYear: document.getElementById('academicYear').value,
+          count,
+          certs
+        }));
+      } catch (e) { /* storage unavailable: ignore */ }
+    }
+
+    function loadDraft() {
+      try {
+        const raw = localStorage.getItem(DRAFT_KEY);
+        if (!raw) return null;
+        const d = JSON.parse(raw);
+        if (!d || Date.now() - d.t > DRAFT_MAX_AGE_MS) { localStorage.removeItem(DRAFT_KEY); fileClearAll(); return null; }
+        return d;
+      } catch (e) { return null; }
+    }
+
+    function clearDraft() {
+      try { localStorage.removeItem(DRAFT_KEY); } catch (e) { }
+    }
+
+    async function renderBlocks(count, savedCerts) {
       certBlocksContainer.innerHTML = '';
-      const count = parseInt(certCountSelect.value, 10);
-      if (!count) return;
+      if (!count) return false;
+
+      await optionsReady;
+
+      // If the first attempt failed (n8n was down, etc.), try once more
+      if (optionsLoadFailed) {
+        showStatus('info', 'Loading certification platforms...');
+        optionsReady = loadPlatformOptions();
+        await optionsReady;
+        if (optionsLoadFailed) {
+          showStatus('error', 'Could not load certification platforms. Please check your connection and try again.');
+          return false;
+        }
+        statusMsg.className = '';
+        statusMsg.textContent = '';
+      }
+
+      // The student may have changed the count again while we were waiting
+      if (parseInt(certCountSelect.value, 10) !== count) return false;
 
       for (let i = 1; i <= count; i++) {
         certBlocksContainer.appendChild(buildCertBlock(i));
       }
+
+      (savedCerts || []).slice(0, count).forEach(function (c, idx) {
+        const i = idx + 1;
+        const p = document.getElementById('platform_' + i);
+        if (!p) return;
+        p.value = c.platform || '';
+        document.getElementById('certName_' + i).value = c.certName || '';
+        document.getElementById('completionDate_' + i).value = c.completionDate || '';
+      });
+
+      missingFiles = await restoreFiles(count);
+      return true;
+    }
+
+    certCountSelect.addEventListener('change', async function () {
+      const count = parseInt(certCountSelect.value, 10);
+      const current = collectCerts();            // keep what was already typed
+      await renderBlocks(count, current);
+      for (let i = (count || 0) + 1; i <= 10; i++) { fileDelete('cert_' + i); }
+      saveDraft();
     });
+
+    certForm.addEventListener('input', saveDraft);
+    certForm.addEventListener('change', saveDraft);
+
+    // Clear invalid highlight on correction
+    certForm.addEventListener('input', function (e) {
+      const el = e.target;
+      if (el.classList.contains('field-invalid')) el.classList.remove('field-invalid');
+      const area = el.closest('.file-upload-area');
+      if (area && area.classList.contains('field-invalid')) area.classList.remove('field-invalid');
+    });
+    certForm.addEventListener('change', function (e) {
+      const el = e.target;
+      if (el.classList.contains('field-invalid')) el.classList.remove('field-invalid');
+      const area = el.closest('.file-upload-area');
+      if (area && area.classList.contains('field-invalid')) area.classList.remove('field-invalid');
+    });
+
+    // On every page load: restore a saved draft, or rebuild the blocks if the
+    // browser itself restored the "how many certificates" dropdown.
+    (async function restoreOnLoad() {
+      const draft = loadDraft();
+      if (draft) {
+        document.getElementById('studentName').value = draft.studentName || '';
+        document.getElementById('rollNo').value = draft.rollNo || '';
+        document.getElementById('academicYear').value = draft.academicYear || '';
+        if (draft.count) certCountSelect.value = draft.count;
+      }
+      const count = parseInt(certCountSelect.value, 10) || 0;
+      if (!count) return;
+      const ok = await renderBlocks(count, draft ? draft.certs : []);
+      if (ok) {
+        if (missingFiles.length > 0) {
+          showStatus('info', 'ℹ️  Page reloaded. Your details were restored. Please re-select the file for certificate ' + missingFiles.join(', ') + '.');
+        } else {
+          showStatus('info', 'ℹ️  Page reloaded. Your details and files were restored. Please review and submit.');
+        }
+      }
+    })();
+
+    class UserError extends Error { }
+
+    function friendlyError(err) {
+      if (err instanceof UserError) return '⚠️  ' + err.message;
+      if (err && err.name === 'AbortError') {
+        return '⚠️  The upload timed out. Please check your connection and try again. (Code: TIMEOUT)';
+      }
+      if (err && err.status === 413) {
+        return '⚠️  Files are too large. Please use smaller files or submit fewer certificates. (Code: HTTP 413)';
+      }
+      if (err && [502, 503, 504].includes(err.status)) {
+        return '⚠️  Server is busy. Please wait a moment and try again. (Code: HTTP ' + err.status + ')';
+      }
+      if (err && err.status) {
+        return '⚠️  Server error. Please tell your coordinator: HTTP ' + err.status;
+      }
+      return '⚠️  Could not reach the server. Please check your internet connection and try again. (Code: NETWORK)';
+    }
+
+    // ---------- Overlay helpers ----------
+    function showLoadingOverlay(title, sub) {
+      loadingTitle.textContent = title || 'Preparing your files...';
+      loadingSub.textContent = sub || 'Please keep this page open.';
+      loadingOverlay.classList.add('visible');
+    }
+
+    function hideLoadingOverlay() {
+      loadingOverlay.classList.remove('visible');
+    }
+
+    successCloseBtn.addEventListener('click', function () {
+      successOverlay.classList.remove('visible');
+    });
+
+    validationModal.addEventListener('click', function (e) {
+      if (e.target === validationModal) validationModal.classList.remove('visible');
+    });
+
+    validationOkBtn.addEventListener('click', function () {
+      validationModal.classList.remove('visible');
+    });
+
+    function showValidationModal(errors) {
+      validationList.innerHTML = '';
+      errors.forEach(function (msg) {
+        const li = document.createElement('li');
+        li.textContent = msg;
+        validationList.appendChild(li);
+      });
+      validationModal.classList.add('visible');
+      setTimeout(function () { validationOkBtn.focus(); }, 50);
+    }
+
+    // ---------- Pre-submit validation ----------
+    function validateForm(count) {
+      const errors = [];
+      const invalidEls = [];
+
+      function checkEl(el, label) {
+        if (!el) { errors.push(label); return; }
+        let empty = false;
+        if (el.type === 'file') empty = el.files.length === 0;
+        else if (el.tagName === 'SELECT') empty = el.value === '';
+        else empty = el.value.trim() === '';
+        if (empty) { errors.push(label); invalidEls.push(el); }
+      }
+
+      checkEl(document.getElementById('studentName'), 'Full Name');
+      checkEl(document.getElementById('rollNo'), 'Roll Number');
+      checkEl(document.getElementById('academicYear'), 'Academic Year');
+      checkEl(document.getElementById('certCount'), 'Number of Certificates');
+
+      for (let i = 1; i <= count; i++) {
+        checkEl(document.getElementById('platform_' + i), 'Certificate ' + i + ': Platform / Organization');
+        checkEl(document.getElementById('certName_' + i), 'Certificate ' + i + ': Name / Title');
+        checkEl(document.getElementById('completionDate_' + i), 'Certificate ' + i + ': Completion Date');
+        checkEl(document.getElementById('certFile_' + i), 'Certificate ' + i + ': Upload File');
+      }
+
+      // Highlight invalid fields
+      invalidEls.forEach(function (el) {
+        if (el.type === 'file') {
+          const area = el.closest('.file-upload-area');
+          if (area) area.classList.add('field-invalid');
+        } else {
+          el.classList.add('field-invalid');
+        }
+      });
+
+      return errors;
+    }
 
     certForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const count = parseInt(certCountSelect.value, 10);
       if (!count) {
-        showStatus('error', 'Please select how many certificates you are submitting.');
+        showValidationModal(['Number of Certificates &mdash; please select how many you are submitting']);
+        document.getElementById('certCount').classList.add('field-invalid');
+        return;
+      }
+
+      // Run full validation before touching the network
+      const errors = validateForm(count);
+      if (errors.length > 0) {
+        showValidationModal(errors);
+        const firstInvalid = certForm.querySelector('.field-invalid');
+        if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
 
       submitBtn.disabled = true;
-      showStatus('loading', 'Submitting your certificates, please wait...');
-
-      const formData = new FormData();
-      formData.append('studentName', document.getElementById('studentName').value);
-      formData.append('rollNo', document.getElementById('rollNo').value);
-      formData.append('academicYear', document.getElementById('academicYear').value);
-      formData.append('certCount', count);
-
-      for (let i = 1; i <= count; i++) {
-        formData.append(`platform_${i}`, document.getElementById(`platform_${i}`).value);
-        formData.append(`certName_${i}`, document.getElementById(`certName_${i}`).value);
-        formData.append(`completionDate_${i}`, document.getElementById(`completionDate_${i}`).value);
-
-        const fileInput = document.getElementById(`certFile_${i}`);
-        if (fileInput.files.length > 0) {
-          formData.append(`certFile_${i}`, fileInput.files[0]);
-        }
-      }
+      showLoadingOverlay('Preparing your files...', 'Please keep this page open.');
 
       try {
-        const response = await fetch(FORM_SUBMIT_WEBHOOK_URL, {
-          method: 'POST',
-          body: formData
-        });
+        const formData = new FormData();
+        formData.append('studentName', document.getElementById('studentName').value.trim());
+        formData.append('rollNo', document.getElementById('rollNo').value.trim());
+        formData.append('academicYear', document.getElementById('academicYear').value);
+        formData.append('certCount', count);
 
-        if (!response.ok) throw new Error('Server responded with an error');
+        let totalBytes = 0;
+        for (let i = 1; i <= count; i++) {
+          formData.append(`platform_${i}`, document.getElementById(`platform_${i}`).value);
+          formData.append(`certName_${i}`, document.getElementById(`certName_${i}`).value.trim());
+          formData.append(`completionDate_${i}`, document.getElementById(`completionDate_${i}`).value);
 
-        showStatus('success', '✅ Your certificates were submitted successfully!');
+          const fileInput = document.getElementById(`certFile_${i}`);
+          if (fileInput.files.length > 0) {
+            const f = fileInput.files[0];
+            let copy;
+            try {
+              // Copy the file into memory first. Phones can lose access to a chosen file
+              // (cloud storage, moved or edited files), which makes the upload fail.
+              copy = new File([await f.arrayBuffer()], f.name, { type: f.type });
+            } catch (readErr) {
+              console.error(readErr);
+              throw new UserError('Could not read the file for certificate ' + i + '. Please select it again. If stored in Google Drive or OneDrive, download it first.');
+            }
+            totalBytes += copy.size;
+            formData.append(`certFile_${i}`, copy);
+          }
+        }
+
+        if (totalBytes > 50 * 1024 * 1024) {
+          throw new UserError('Your files add up to ' + Math.round(totalBytes / 1048576) + ' MB &mdash; over the 50 MB limit. Please use smaller files or submit fewer at a time.');
+        }
+
+        showLoadingOverlay(
+          'Uploading certificates...',
+          (totalBytes / 1048576).toFixed(1) + ' MB • Please keep this page open.'
+        );
+
+        const controller = new AbortController();
+        const timer = setTimeout(function () { controller.abort(); }, 5 * 60 * 1000);
+        let response;
+        try {
+          response = await fetch(FORM_SUBMIT_WEBHOOK_URL, {
+            method: 'POST',
+            body: formData,
+            signal: controller.signal
+          });
+        } finally {
+          clearTimeout(timer);
+        }
+
+        if (!response.ok) {
+          const httpErr = new Error('HTTP ' + response.status);
+          httpErr.status = response.status;
+          throw httpErr;
+        }
+
+        hideLoadingOverlay();
+        successOverlay.classList.add('visible');
         certForm.reset();
+        clearDraft();
+        fileClearAll();
         certBlocksContainer.innerHTML = '';
+        statusMsg.className = '';
+        statusMsg.textContent = '';
+
       } catch (err) {
         console.error(err);
-        showStatus('error', 'Something went wrong while submitting. Please try again.');
+        hideLoadingOverlay();
+        showStatus('error', friendlyError(err));
       } finally {
         submitBtn.disabled = false;
       }
